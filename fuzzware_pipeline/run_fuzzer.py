@@ -39,7 +39,7 @@ def run_corpus_minimizer(target_args, input_dir, output_dir, timeout=EMULATION_R
         subprocess.check_call(full_args, env={**os.environ, **{'AFL_SKIP_CRASHES': '1'}})
 
 
-def run_fuzzer(target_args, input_dir, output_dir, fuzzer_no=1, fuzzers_total=1, masters_total=1, timeout=EMULATION_RUN_TIMEOUT, silent=False, dict_path=None, skip_deterministic=True, use_aflpp=False):
+def run_fuzzer(target_args, input_dir, output_dir, fuzzer_no=1, fuzzers_total=1, masters_total=1, timeout=EMULATION_RUN_TIMEOUT, silent=False, dict_path=None, skip_deterministic=True, use_aflpp=True, use_rq=True):
     # Set unlimited memory, Unicorn mode, timeout
     fuzzer_args = [os.path.join(afl_base_dir(use_aflpp), AFL_FUZZ), "-m", "none", "-U", "-t", "{:d}".format(timeout)]
     fuzzer_args += ["-i", input_dir]
@@ -69,6 +69,9 @@ def run_fuzzer(target_args, input_dir, output_dir, fuzzer_no=1, fuzzers_total=1,
             fuzzer_args += ["-S", out_subdir]
     elif skip_deterministic:
         fuzzer_args += ["-d"]
+
+    if use_aflpp and use_rq:
+        fuzzer_args += ["-c", "0"]
 
     logger.info("Starting afl")
     logger.info("afl arguments: {}".format(fuzzer_args))
