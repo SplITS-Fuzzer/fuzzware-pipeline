@@ -975,7 +975,7 @@ def main():
     parser_pipeline.add_argument('--silent-workers', default=False, action='store_true', help="Disable writing stdout/stderr logs.")
     parser_pipeline.add_argument('--full-traces', default=False, action='store_true', help="Enable generating full traces instead of only generating the (much smaller) set-based traces.")
     parser_pipeline.add_argument('--skip-afl-cpufreq', default=False, action='store_true', help="Skip AFL's performance governor check by setting AFL_SKIP_CPUFREQ=1.")
-    parser_pipeline.add_argument('--aflpp', default=False, action="store_true", help="Use AFLplusplus (instead of afl).")
+    parser_pipeline.add_argument('--aflpp', default=True, action="store_true", help="Use AFLplusplus (instead of afl).")
 
     # Bare-bone Fuzzer command-line arguments
     parser_fuzz.add_argument('out_subdir', help="The output subdirectory name to use.")
@@ -985,7 +985,7 @@ def main():
     parser_fuzz.add_argument('--all-masters', default=False, action='store_true', help="Run all fuzzer instances as master instances.")
     parser_fuzz.add_argument('--dict', default=None, help="The dictionary file path to be passed to afl. Uses afl-fuzz's -x option.")
     parser_fuzz.add_argument('extra_harness_args', default=[], nargs="*", help="Additional harness runtime arguments, e.g., an instruction limit.")
-    parser_fuzz.add_argument('--aflpp', default=False, action="store_true", help="Use AFLplusplus (instead of afl).")
+    parser_fuzz.add_argument('--aflpp', default=True, action="store_true", help="Use AFLplusplus (instead of afl).")
 
     # Harness command-line arguments
     # No extra emu args as we are passing on parsing to the harness code
@@ -1026,7 +1026,7 @@ def main():
     parser_replaytest.add_argument('project_dir', type=os.path.abspath, help="Directory containing the main config")
     parser_replaytest.add_argument('-v', '--verbose', default=False, action="store_true", help="Prints output of afl if set.")
     parser_replaytest.add_argument('--log', action='store_true', help="Enables logging replaytest output to log-file (logs/replaytest.log)")
-    parser_replaytest.add_argument('--aflpp', default=False, action="store_true", help="Use AFLplusplus (instead of afl).")
+    parser_replaytest.add_argument('--aflpp', default=True, action="store_true", help="Use AFLplusplus (instead of afl).")
 
     # Cov command-line arguments
     parser_cov.add_argument('basic_blocks', help="Basic block addresses (hexadecimal) or symbols which need to be covered within a trace. If not provided, general coverage info is dumped checked", nargs="*")
